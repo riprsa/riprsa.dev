@@ -1,0 +1,8 @@
+.data/
+node_modules/
+.env
+temp/
+dist/
+.DS_Store
+bin
+run
