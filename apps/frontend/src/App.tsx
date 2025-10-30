@@ -15,8 +15,8 @@ export function App() {
       >
         a
       </h2>
-      <div className="grid grid-cols-[1fr_280px] gap-2 items-start h-full">
-        <div className="min-h-[calc(100vh-120px)] flex flex-col gap-2">
+      <div className="grid gap-2 items-start h-full">
+        <div className="flex flex-col gap-2">
           <Row>
             <Card>a</Card>
           </Row>
@@ -27,11 +27,6 @@ export function App() {
 
             <Card>a</Card>
           </Row>
-        </div>
-
-        {/* Sidebar */}
-        <div className="flex flex-col gap-2 sticky top-1 self-start max-h-[calc(100vh-10px)] overflow-y-auto">
-          <Card>q</Card>
         </div>
       </div>
     </div>

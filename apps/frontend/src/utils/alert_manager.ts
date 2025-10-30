@@ -3,8 +3,8 @@ export type AlertType = "error" | "info" | "success" | "warning";
 export interface AlertOptions {
   type: AlertType;
   message: string;
-  duration?: number; // Auto-dismiss after N ms (0 = no auto-dismiss)
-  dismissible?: boolean; // Show close button
+  duration?: number;
+  dismissible?: boolean;
 }
 
 class AlertManager {
@@ -16,7 +16,11 @@ class AlertManager {
   }
 
   private initialize(): void {
-    // Create container if it doesn't exist
+    // Avoid touching the DOM during SSR
+    if (typeof document === "undefined") {
+      return;
+    }
+
     if (!this.container) {
       this.container = document.createElement("div");
       this.container.id = "alert-container";
@@ -26,9 +30,6 @@ class AlertManager {
     }
   }
 
-  /**
-   * Show an alert banner
-   */
   show(options: AlertOptions): string {
     const id = `alert-${Date.now()}-${Math.random()}`;
     const alert = this.createAlert(id, options);
@@ -40,13 +41,11 @@ class AlertManager {
     this.container.appendChild(alert);
     this.alerts.set(id, alert);
 
-    // Trigger animation
     requestAnimationFrame(() => {
       alert.style.transform = "translateX(0)";
       alert.style.opacity = "1";
     });
 
-    // Auto-dismiss
     if (options.duration && options.duration > 0) {
       setTimeout(() => this.dismiss(id), options.duration);
     }
@@ -54,9 +53,6 @@ class AlertManager {
     return id;
   }
 
-  /**
-   * Dismiss an alert by ID
-   */
   dismiss(id: string): void {
     const alert = this.alerts.get(id);
     if (!alert) return;
@@ -70,16 +66,10 @@ class AlertManager {
     }, 300);
   }
 
-  /**
-   * Clear all alerts
-   */
   clearAll(): void {
     this.alerts.forEach((_, id) => this.dismiss(id));
   }
 
-  /**
-   * Get the number of active alerts
-   */
   getAlertCount(): number {
     return this.alerts.size;
   }
@@ -87,7 +77,6 @@ class AlertManager {
   private createAlert(id: string, options: AlertOptions): HTMLElement {
     const alert = document.createElement("div");
 
-    // Use inline styles for reliable rendering
     alert.style.cssText = `
       display: flex;
       align-items: center;
@@ -107,7 +96,6 @@ class AlertManager {
       min-width: 300px;
     `;
 
-    // Add type-specific colors
     const typeColors = this.getAlertInlineStyles(options.type);
     Object.assign(alert.style, typeColors);
 
@@ -188,61 +176,36 @@ class AlertManager {
   }
 }
 
-// Singleton instance
 const alertManager = new AlertManager();
 
-/**
- * Show an error alert
- */
 export function showError(message: string, duration = 5000): string {
   return alertManager.show({ type: "error", message, duration });
 }
 
-/**
- * Show an info alert
- */
 export function showInfo(message: string, duration = 3000): string {
   return alertManager.show({ type: "info", message, duration });
 }
 
-/**
- * Show a success alert
- */
 export function showSuccess(message: string, duration = 3000): string {
   return alertManager.show({ type: "success", message, duration });
 }
 
-/**
- * Show a warning alert
- */
 export function showWarning(message: string, duration = 4000): string {
   return alertManager.show({ type: "warning", message, duration });
 }
 
-/**
- * Dismiss a specific alert
- */
 export function dismissAlert(id: string): void {
   alertManager.dismiss(id);
 }
 
-/**
- * Clear all alerts
- */
 export function clearAllAlerts(): void {
   alertManager.clearAll();
 }
 
-/**
- * Show a custom alert
- */
 export function showAlert(options: AlertOptions): string {
   return alertManager.show(options);
 }
 
-/**
- * Show a loading alert (no auto-dismiss)
- */
 export function showLoading(message: string): string {
   return alertManager.show({
     type: "info",
@@ -252,9 +215,6 @@ export function showLoading(message: string): string {
   });
 }
 
-/**
- * Update an existing alert message
- */
 export function updateAlert(id: string, message: string): void {
   const alert = document.querySelector(`[data-alert-id="${id}"]`);
   if (alert) {
@@ -265,9 +225,8 @@ export function updateAlert(id: string, message: string): void {
   }
 }
 
-/**
- * Get the number of active alerts
- */
 export function getAlertCount(): number {
   return alertManager.getAlertCount();
 }
+
+

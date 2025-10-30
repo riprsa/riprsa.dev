@@ -43,7 +43,6 @@ export function WebSocketProvider({ children }: { children: ReactNode }) {
   const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const reconnectAttemptsRef = useRef(0);
 
-  // Clear reconnection timeout
   const clearReconnectTimeout = () => {
     if (reconnectTimeoutRef.current) {
       clearTimeout(reconnectTimeoutRef.current);
@@ -51,7 +50,6 @@ export function WebSocketProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  // Schedule reconnection attempt
   const scheduleReconnect = () => {
     clearReconnectTimeout();
     setDataStatus("retry");
@@ -61,10 +59,9 @@ export function WebSocketProvider({ children }: { children: ReactNode }) {
 
     reconnectTimeoutRef.current = setTimeout(() => {
       connectDataStream();
-    }, 1000); // Reconnect every 1 second
+    }, 1000);
   };
 
-  // Connect to data stream
   const connectDataStream = () => {
     setDataStatus("connecting");
     clearReconnectTimeout();
@@ -78,7 +75,7 @@ export function WebSocketProvider({ children }: { children: ReactNode }) {
 
     ws.on("open", () => {
       setDataStatus("connected");
-      reconnectAttemptsRef.current = 0; // Reset attempts on successful connection
+      reconnectAttemptsRef.current = 0;
 
       if (reconnectAttemptsRef.current === 0) {
         showSuccess("Data stream connected successfully");
@@ -106,10 +103,6 @@ export function WebSocketProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  // Get SOL price from PriceContext
-  // const { solPrice } = usePrice();
-
-  // Start data stream connection
   useEffect(() => {
     connectDataStream();
 
@@ -120,7 +113,7 @@ export function WebSocketProvider({ children }: { children: ReactNode }) {
         dataWsRef.current = null;
       }
     };
-  }, []); // Only run once on mount
+  }, []);
 
   return (
     <WebSocketContext.Provider
@@ -132,3 +125,5 @@ export function WebSocketProvider({ children }: { children: ReactNode }) {
     </WebSocketContext.Provider>
   );
 }
+
+

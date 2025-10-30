@@ -41,13 +41,13 @@ export function Button(props: ButtonProps) {
       "border-yellow-500/50 bg-yellow-700 hover:bg-yellow-700 hover:border-yellow-400",
     success:
       "border-green-500/50 bg-green-600 hover:bg-green-700 hover:border-green-400",
-  };
+  } as const;
 
   const sizeClasses = {
     small: "px-1.5 py-0.5 text-xs",
     medium: "px-2 py-1 text-xs",
     large: "px-3 py-2 text-sm",
-  };
+  } as const;
 
   const classes = [
     baseClasses,
@@ -72,3 +72,5 @@ export function Button(props: ButtonProps) {
     </button>
   );
 }
+
+
