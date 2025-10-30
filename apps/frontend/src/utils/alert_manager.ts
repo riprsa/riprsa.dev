@@ -228,5 +228,3 @@ export function updateAlert(id: string, message: string): void {
 export function getAlertCount(): number {
   return alertManager.getAlertCount();
 }
-
-

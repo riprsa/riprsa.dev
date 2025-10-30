@@ -39,5 +39,3 @@ export function StatusDot({ status, id, title }: StatusDotProps) {
     />
   );
 }
-
-

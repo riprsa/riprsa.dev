@@ -23,5 +23,3 @@ export function Card({ children, className = "", id }: CardProps) {
     </div>
   );
 }
-
-
