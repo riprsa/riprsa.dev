@@ -7,7 +7,6 @@ import {
   type ReactNode,
 } from "react";
 import { api } from "@/api";
-import type { ResponseMessage, RequestMessage } from "@riprsa.dev/backend";
 import { showSuccess } from "@/utils/alert_manager";
 
 export type ConnectionStatus =

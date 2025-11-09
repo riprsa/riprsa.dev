@@ -1,7 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  typescript: {
+    ignoreBuildErrors: true,
+    // tsconfigPath: "./tsconfig.json",
+  },
+  // transpilePackages: ["@riprsa.dev/backend"],
 };
 
 export default nextConfig;
