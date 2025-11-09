@@ -5,7 +5,7 @@ import { logger } from "@/logger";
 const bot = new Bot(env.BOT_TOKEN);
 
 // Single user ID
-const USER_ID = 7582240705;
+const USER_ID = 8107382608;
 
 // Predefined message
 const MESSAGE_TEXT = "do not forget the goals!";
