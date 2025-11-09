@@ -8,7 +8,7 @@ const bot = new Bot(env.BOT_TOKEN);
 const USER_ID = 7582240705;
 
 // Predefined message
-const MESSAGE_TEXT = "Choose an action:";
+const MESSAGE_TEXT = "do not forget the goals!";
 
 // Store mute state: unmute timestamp
 let muteUntil: number | null = null;
@@ -19,10 +19,10 @@ let scheduledMessageTime: number | null = null;
 // Create inline keyboard with buttons
 function createKeyboard() {
   return new InlineKeyboard()
-    .text("Mute for 3 hours", "mute_3h")
-    .text("Mute for 1 hour", "mute_1h")
+    .text("mute for 3 hours", "mute_3h")
+    .text("mute for 1 hour", "mute_1h")
     .row()
-    .text("Check", "check");
+    .text("things made", "check");
 }
 
 // Function to send the message with buttons
@@ -67,7 +67,7 @@ bot.callbackQuery("mute_3h", async (ctx) => {
 
   const unmuteDate = new Date(muteUntil);
   await ctx.answerCallbackQuery({
-    text: `Muted until ${unmuteDate.toLocaleString()}`,
+    text: `muted until for 3 hours`,
   });
 
   logger.info(
@@ -80,7 +80,7 @@ bot.callbackQuery("mute_1h", async (ctx) => {
 
   const unmuteDate = new Date(muteUntil);
   await ctx.answerCallbackQuery({
-    text: `Muted until ${unmuteDate.toLocaleString()}`,
+    text: `muted until for 1 hour`,
   });
 
   logger.info(
@@ -93,7 +93,7 @@ bot.callbackQuery("check", async (ctx) => {
   scheduledMessageTime = targetDate.getTime();
 
   await ctx.answerCallbackQuery({
-    text: `Message will be sent at 9:00 PM GMT+4 (${targetDate.toLocaleString()})`,
+    text: `good!`,
   });
 
   logger.info(
